@@ -1,0 +1,38 @@
+:root {
+  /* Primary Colors */
+  --primary-500: #0a21a8;
+  --primary-400: #3b4db9;
+  --primary-300: #6c7acb;
+  --primary-200: #9da6dc;
+  --primary-100: #ced3ee;
+  --primary-50: #f5f8ff;
+
+  /* Neutral Colors */
+  --neutral-600: #000000;
+  --neutral-500: #4a4b53;
+  --neutral-400: #737581;
+  --neutral-300: #e1e1e1;
+  --neutral-200: #f4f4f4;
+  --neutral-100: #ffffff;
+
+  /* Secondary Colors */
+  --secondary-500: #ffaf30;
+
+  /* Status Color */
+  /* Success */
+  --success-200: #367b48;
+  --success-100: #8aae31;
+
+  /* Error */
+  --error-200: #a70c6d;
+  --error-100: #df1995;
+
+  /* Typescale */
+
+  /* H1 */
+  --h1: 3.5em;
+  --h2: 2.44em;
+  --h3: 1.95em;
+  --h4: 1.56em;
+  --h5: 1.25em;
+}

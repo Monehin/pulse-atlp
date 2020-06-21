@@ -1,25 +1,23 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { css, jsx } from '@emotion/core';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+/** @jsx jsx */
+
+import Home from './components/Home/Home';
+import Dashboard from './components/Dashoard/Dashboard';
+
+const appStyle = css``;
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <div className='app' css={appStyle}>
+        <Switch>
+          <Route exact path='/' component={Home} />
+          <Route path='/dashboard' component={Dashboard} />
+        </Switch>
+      </div>
+    </Router>
   );
 }
 
