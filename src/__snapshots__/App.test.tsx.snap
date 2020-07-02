@@ -2,121 +2,34 @@
 
 exports[`Homepage render 1`] = `
 <div
-  className="app css-177syl8-App"
+  className="css-osdkme-Loading"
 >
   <div
-    className="home css-p88jff-Home"
-  >
-    <div
-      className=" css-asoqq8-Home"
-    >
-      <div
-        className="logo"
-      >
-        <img
-          alt="logo"
-          src="pulse_logo.svg"
-        />
-        <h2>
-           Welcome to Andela Pulse
-        </h2>
-      </div>
-      <form
-        className="loginForm css-4bo7l1-Home"
-      >
-        <div
-          className="loginForm__email"
-        >
-          <input
-            placeholder="Email"
-            type="text"
-          />
-        </div>
-        <div
-          className="loginForm__password"
-        >
-          <input
-            placeholder="Password"
-            type="text"
-          />
-        </div>
-        <div
-          className="loginForm__forgot"
-        >
-          <a
-            href="/"
-            onClick={[Function]}
-          >
-            Forgot Password?
-          </a>
-        </div>
-        <div>
-          <input
-            type="submit"
-            value="Login"
-          />
-        </div>
-        <div
-          className="divder"
-        >
-          <span />
-          <h5>
-            OR
-          </h5>
-          <span />
-        </div>
-        <div>
-          <button
-            className="btn-google-signin"
-            type="button"
-          >
-            <img
-              alt="googleIcon"
-              src="google-icon.png"
-            />
-            <h5>
-              Login With Google
-            </h5>
-          </button>
-        </div>
-      </form>
-    </div>
-    <div
-      className="showcase css-wzmkat-Home"
-    >
-      <div
-        className="lights-svg"
-      >
-        <img
-          alt="dashboard"
-          src="lights.svg"
-        />
-      </div>
-      <div
-        className="clock-svg"
-      >
-        <img
-          alt="dashboard"
-          src="clock.svg"
-        />
-      </div>
-      <div
-        className="humans-svg"
-      >
-        <img
-          alt="dashboard"
-          src="humans.svg"
-        />
-      </div>
-      <div
-        className="dashboard-svg"
-      >
-        <img
-          alt="dashboard"
-          src="dashboard.svg"
-        />
-      </div>
-    </div>
-  </div>
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
+  <div
+    className="obj"
+  />
 </div>
 `;

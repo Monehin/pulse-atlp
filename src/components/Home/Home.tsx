@@ -1,13 +1,147 @@
-import React from 'react';
+import React, { useContext, useState, SyntheticEvent } from 'react';
 import { css, jsx } from '@emotion/core';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { UserContext } from '../../Providers/UserProvider';
+import { auth, signInWithGoogle } from '../../firebase';
+import { Link, Redirect, withRouter, useLocation } from 'react-router-dom';
+/** @jsx jsx */
+
+// IMPORT SVG IMAGES
 import logo from '../../assets/pulse_logo.svg';
 import googleIcon from '../../assets/google-icon.png';
 import dashboardSVG from '../../assets/dashboard.svg';
 import humansSVG from '../../assets/humans.svg';
 import lightsSVG from '../../assets/lights.svg';
 import clockSVG from '../../assets/clock.svg';
-import { Link } from 'react-router-dom';
-/** @jsx jsx */
+
+const Home = ({ history }: any) => {
+  const [loginForm, setLoginForm] = useState({
+    email: '',
+    password: '',
+    loading: false,
+    error: { code: '', message: '' },
+  });
+
+  const { email, password, error } = loginForm;
+
+  const { currentUser } = useContext(UserContext);
+
+  if (currentUser) {
+    return <Redirect to='dashboard' />;
+  }
+
+  const handleInputChange = (e: SyntheticEvent): void => {
+    const { name, value } = e.target as HTMLInputElement;
+    setLoginForm({
+      ...loginForm,
+      [name]: value,
+      error: { code: '', message: '' },
+    });
+  };
+
+  const handleLoginWithEmail = async (e: SyntheticEvent) => {
+    e.preventDefault();
+    try {
+      setLoginForm({ ...loginForm, loading: true });
+      await auth.signInWithEmailAndPassword(email, password);
+      setLoginForm({ ...loginForm, email: '', password: '', loading: false });
+      history.push('/dashboard');
+    } catch (err) {
+      const { code, message } = err;
+      setLoginForm({ ...loginForm, error: { code, message } });
+    }
+  };
+
+  const handleSignInWithGoogle = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (err) {
+      const { code, message } = err;
+      setLoginForm({ ...loginForm, error: { code, message } });
+    }
+  };
+
+  return (
+    <div className='home' css={homeStyle}>
+      <div className='' css={sideNavStyle}>
+        <div className='logo'>
+          <img src={logo} alt='logo' />
+          <h2> Welcome to Andela Pulse</h2>
+        </div>
+        <form
+          className='loginFormStyle'
+          onSubmit={handleLoginWithEmail}
+          css={loginFormStyle}
+        >
+          <div
+            className='loginForm__error'
+            style={{ display: error.code ? 'flex' : 'none' }}
+          >
+            <FontAwesomeIcon
+              className='fontIcon'
+              icon={['fas', 'times']}
+              size='lg'
+            />
+            {error.message}
+          </div>
+          <div className='loginForm__email'>
+            <input
+              name='email'
+              type='text'
+              placeholder='Email'
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className='loginForm__password'>
+            <input
+              name='password'
+              type='password'
+              placeholder='Password'
+              onChange={handleInputChange}
+              required
+            />
+          </div>
+          <div className='loginForm__forgot'>
+            <Link to='/'>Forgot Password?</Link>
+          </div>
+          <div>
+            <input type='submit' value='Login' />
+          </div>
+          <div className='divder'>
+            <span></span>
+            <h5>OR</h5>
+            <span></span>
+          </div>
+          <div>
+            <button
+              className='btn-google-signin'
+              type='button'
+              onClick={handleSignInWithGoogle}
+            >
+              <img src={googleIcon} alt='googleIcon' />
+              <h5>Login With Google</h5>
+            </button>
+          </div>
+        </form>
+      </div>
+      <div className='showcase' css={showcaseStyle}>
+        <div className='lights-svg'>
+          <img src={lightsSVG} alt='dashboard' />
+        </div>
+        <div className='clock-svg'>
+          <img src={clockSVG} alt='dashboard' />
+        </div>
+        <div className='humans-svg'>
+          <img src={humansSVG} alt='dashboard' />
+        </div>
+        <div className='dashboard-svg'>
+          <img src={dashboardSVG} alt='dashboard' />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const homeStyle = css`
   display: grid;
@@ -30,7 +164,7 @@ const sideNavStyle = css`
   background: var(--primary-500);
   width: 100%;
   padding: 20px;
-  height: 100vh;
+  height: 100%;
 
   .logo {
     height: 15vh;
@@ -51,7 +185,7 @@ const sideNavStyle = css`
   }
 `;
 
-const loginForm = css`
+const loginFormStyle = css`
   display: flex;
   flex-direction: column;
   flex-wrap: wrap;
@@ -64,6 +198,20 @@ const loginForm = css`
 
   .loginForm__email {
     margin: 0.8rem 0;
+  }
+
+  .loginForm__error {
+    background-color: var(--error-200);
+    color: var(--neutral-100);
+    border-radius: 0.2em;
+    padding: 0.5rem;
+    align-items: center;
+  }
+
+  .loginForm__error > .fontIcon {
+    color: var(--neutral-200);
+    opacity: 0.5;
+    margin-right: 0.5em;
   }
 
   .loginForm__password {
@@ -166,7 +314,7 @@ const showcaseStyle = css`
   background: linear-gradient(to right, var(--primary-500), var(--primary-300));
   justify-items: center;
   align-items: center;
-  height: 100vh;
+  height: 100%;
 
   .lights-svg {
     grid-area: lights-svg;
@@ -243,57 +391,5 @@ const showcaseStyle = css`
     display: none;
   }
 `;
-
-const Home = () => {
-  return (
-    <div className='home' css={homeStyle}>
-      <div className='' css={sideNavStyle}>
-        <div className='logo'>
-          <img src={logo} alt='logo' />
-          <h2> Welcome to Andela Pulse</h2>
-        </div>
-        <form className='loginForm' css={loginForm}>
-          <div className='loginForm__email'>
-            <input type='text' placeholder='Email' />
-          </div>
-          <div className='loginForm__password'>
-            <input type='text' placeholder='Password' />
-          </div>
-          <div className='loginForm__forgot'>
-            <Link to=''>Forgot Password?</Link>
-          </div>
-          <div>
-            <input type='submit' value='Login' />
-          </div>
-          <div className='divder'>
-            <span></span>
-            <h5>OR</h5>
-            <span></span>
-          </div>
-          <div>
-            <button className='btn-google-signin' type='button'>
-              <img src={googleIcon} alt='googleIcon' />
-              <h5>Login With Google</h5>
-            </button>
-          </div>
-        </form>
-      </div>
-      <div className='showcase' css={showcaseStyle}>
-        <div className='lights-svg'>
-          <img src={lightsSVG} alt='dashboard' />
-        </div>
-        <div className='clock-svg'>
-          <img src={clockSVG} alt='dashboard' />
-        </div>
-        <div className='humans-svg'>
-          <img src={humansSVG} alt='dashboard' />
-        </div>
-        <div className='dashboard-svg'>
-          <img src={dashboardSVG} alt='dashboard' />
-        </div>
-      </div>
-    </div>
-  );
-};
 
 export default Home;

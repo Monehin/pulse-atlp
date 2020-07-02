@@ -17,6 +17,7 @@ import {
   faDoorOpen,
   faChartLine,
   faChartArea,
+  faTimes
 } from '@fortawesome/free-solid-svg-icons';
 
 library.add(
@@ -33,5 +34,6 @@ library.add(
   faProjectDiagram,
   faDoorOpen,
   faChartLine,
-  faChartArea
+  faChartArea,
+  faTimes
 );

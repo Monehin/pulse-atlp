@@ -3,26 +3,6 @@ import { css, jsx } from '@emotion/core';
 import SummaryCard from './SummaryCard/SummaryCard';
 /** @jsx jsx */
 
-const reportStyle = css`
-  .overviewCards {
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr 1fr;
-    grid-gap: 2rem;
-    margin-bottom: 2rem;
-  }
-
-  @media screen and (max-width: 1080px) {
-    .overviewCards {
-      grid-template-columns: 1fr 1fr;
-    }
-  }
-
-  @media screen and (max-width: 650px) {
-    .overviewCards {
-      grid-template-columns: 1fr;
-    }
-  }
-`;
 const Reports = () => {
   const overviewCard = [
     {
@@ -54,12 +34,33 @@ const Reports = () => {
   return (
     <div className='reports' css={reportStyle}>
       <div className='overviewCards'>
-        {overviewCard.map((card) => (
-          <SummaryCard {...card} />
+        {overviewCard.map((card, index) => (
+          <SummaryCard {...card} key={index} />
         ))}
       </div>
     </div>
   );
 };
+
+const reportStyle = css`
+  .overviewCards {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 2rem;
+    margin-bottom: 2rem;
+  }
+
+  @media screen and (max-width: 1080px) {
+    .overviewCards {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+
+  @media screen and (max-width: 650px) {
+    .overviewCards {
+      grid-template-columns: 1fr;
+    }
+  }
+`;
 
 export default Reports;

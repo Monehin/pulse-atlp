@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { css, jsx } from '@emotion/core';
+import { Redirect } from 'react-router-dom';
+import { UserContext } from '../../Providers/UserProvider';
 import SideBar from '../Sidebar/SideBar';
 import Navbar from '../Navbar/Navbar';
 import Reports from '../Reports/Reports';

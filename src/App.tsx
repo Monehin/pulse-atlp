@@ -5,19 +5,23 @@ import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 import Home from './components/Home/Home';
 import Dashboard from './components/Dashoard/Dashboard';
+import UserProvider from './Providers/UserProvider';
+import PrivateRoute from './components/PrivateRoute/PrivateRoute';
 
 const appStyle = css``;
 
 function App() {
   return (
-    <Router>
-      <div className='app' css={appStyle}>
-        <Switch>
-          <Route exact path='/' component={Home} />
-          <Route path='/dashboard' component={Dashboard} />
-        </Switch>
-      </div>
-    </Router>
+    <UserProvider>
+      <Router>
+        <div className='app' css={appStyle}>
+          <Switch>
+            <Route exact path='/' component={Home} />
+            <PrivateRoute path='/dashboard' component={Dashboard} />
+          </Switch>
+        </div>
+      </Router>
+    </UserProvider>
   );
 }
 
