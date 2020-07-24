@@ -1,4 +1,40 @@
-@import './themes.css';
+.chromeframe {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+@font-face {
+  font-family: 'DINPro';
+  font-style: normal;
+  font-weight: black;
+  src: local('DINPro Blackk'),
+    url('./assets/fonts/DINPro-Black\ tr.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'DINPro';
+  font-style: normal;
+  font-weight: 300;
+  src: local('DINPro Light'),
+    url('./assets/fonts/DINPro-Light\ tr.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'DINPro';
+  font-style: normal;
+  src: local('DINPro Medium'),
+    url('./assets/fonts/DINPro-Medium\ tr.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'DINPro';
+  font-style: normal;
+  font-weight: bold;
+  src: local('DINPro Bold'),
+    url('./assets/fonts/DINPro-Bold\ tr.woff') format('woff');
+}
 
 * {
   box-sizing: border-box;
@@ -84,12 +120,15 @@ summary,
 time,
 mark,
 audio,
-video {
+video,
+input,
+button {
   margin: 0;
   padding: 0;
   border: 0;
   font: inherit;
   vertical-align: baseline;
+  font-family: 'DINPro', sans-serif;
 }
 
 /* make sure to set some focus styles for accessibility */
@@ -197,6 +236,10 @@ audio:not([controls]) {
  */
 
 html {
+  position: relative;
+  font-size: 100%;
+  font-family: 'DINPro Black', 'DINPro Light', 'DINPro Medium', 'DINPro Bold',
+    sans-serif;
   font-size: 100%; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
   -ms-text-size-adjust: 100%; /* 2 */
@@ -438,57 +481,12 @@ textarea {
   resize: vertical;
 }
 
-.chromeframe {
-  margin: 0.2em 0;
-  background: #ccc;
-  color: #000;
-  padding: 0.2em 0;
-}
-
-@font-face {
-  font-family: 'DINPro Black';
-  font-style: normal;
-  font-weight: normal;
-  src: local('DINPro Blackk'),
-    url('./assets/fonts/DINPro-Medium\ tr.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'DINPro Light';
-  font-style: normal;
-  font-weight: normal;
-  src: local('DINPro Light'),
-    url('./assets/fonts/DINPro-Black\ tr.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'DINPro Medium';
-  font-style: normal;
-  font-weight: normal;
-  src: local('DINPro Medium'),
-    url('./assets/fonts/DINPro-Bold\ tr.woff') format('woff');
-}
-
-@font-face {
-  font-family: 'DINPro Bold';
-  font-style: normal;
-  font-weight: normal;
-  src: local('DINPro Bold'),
-    url('./assets/fonts/DINPro-Light\ tr.woff') format('woff');
-}
-
 body {
   margin: 0;
   font-size: 16px;
   box-sizing: border-box;
-  font-family: 'DINPro Black', 'DINPro Light', 'DINPro Medium', 'DINPro Bold',
-    sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-}
-
-html {
-  font-size: 100%;
 }
 
 h1 {

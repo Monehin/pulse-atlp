@@ -1,0 +1,29 @@
+{
+  "New React Component Boiler Plate": {
+    "prefix": "newcomp",
+    "scope": "typescriptreact",
+    "body": [
+      "/** @jsx jsx */",
+      "import { FC } from 'react';",
+      "import { css, jsx } from '@emotion/core';",
+      "",
+      "import theme, { remCalc } from '../../themes';",
+      "",
+      "type DefaultProps = {",
+      "",
+      "};",
+      "",
+      "/**",
+      "* Style Definitions",
+      "*/",
+      "const DefaultStyle = css`",
+      "",
+      "`;",
+      "const DefaultComponent: FC<DefaultProps> = ({}) => {",
+      "",
+      "};",
+      "",
+      "export default DefaultComponent;"
+    ]
+  }
+}
