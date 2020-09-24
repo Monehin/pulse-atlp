@@ -9,7 +9,7 @@ const themes = {
     /* Primary Colors */
     'primary-500': '#0A21A8',
     'primary-400': '#3359DF',
-    'primary-300': '#6C7ACB;',
+    'primary-300': '#6C7ACB',
     'primary-200': '#9DA6DC',
     'primary-150': '#9B9DD4',
     'primary-125': '#6E71C6',

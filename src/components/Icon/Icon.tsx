@@ -218,9 +218,9 @@ const Icon: FC<IconProps> = ({
     case 'navArt':
       return (
         <svg
-          width='396'
-          height='255'
-          viewBox='0 0 396 255'
+          width='240'
+          height='196'
+          viewBox='0 0 304 196'
           fill='none'
           xmlns='http://www.w3.org/2000/svg'
         >

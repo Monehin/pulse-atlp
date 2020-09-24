@@ -1,7 +1,7 @@
 /** @jsx jsx */
 
-import { useState, FC, ReactNode, ChangeEvent } from "react";
-import { css, jsx } from "@emotion/core";
+import { useState, FC, ChangeEvent } from 'react';
+import { css, jsx } from '@emotion/core';
 
 import theme, { remCalc } from '../../themes';
 import Icon from '../Icon/Icon';
@@ -13,15 +13,17 @@ type TextInputProps = {
    */
   error?: string;
   /**
-   * Specify an SVG icon to render with the button
+   * Specify an SVG icon name to render with the button
    */
-  icon?: ReactNode;
+  iconProps?: { title: string; width?: number; height?: number };
   /**
    * Simulate the look and feel when the text is focused
    */
   focused?: boolean;
   placeholder: string;
   disabled?: boolean;
+  name?: string;
+  type?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -45,7 +47,9 @@ const inputFieldStyle = css`
     color: ${theme['neutral-350']};
   }
 
-  &.focused, &:focus, &:active {
+  &.focused,
+  &:focus,
+  &:active {
     border-color: ${theme['primary-500']};
 
     ~ .title {
@@ -60,6 +64,14 @@ const inputFieldStyle = css`
     }
   }
 
+  &[disabled] {
+    background-color: ${theme['neutral-200']};
+
+    &:hover {
+      cursor: not-allowed;
+    }
+  }
+
   &.error {
     border-color: ${theme['error-100']};
   }
@@ -68,6 +80,37 @@ const inputFieldStyle = css`
 const textInputContainerStyle = css`
   position: relative;
   width: 100%;
+`;
+
+export const newProgramFormStyle = css`
+  form,
+  .row {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+  }
+
+  .grid-area {
+    display: grid;
+    grid-template-rows: repeat(2, 1fr);
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 1rem;
+    grid-row-gap: 2rem;
+  }
+
+  .col {
+    grid-column: auto / span 1;
+    grid-row: auto / span 1;
+  }
+
+  .row {
+    margin-bottom: ${remCalc(30)};
+
+    &.submit {
+      justify-content: flex-end;
+      margin-bottom: 0;
+    }
+  }
 `;
 
 const textInputTitleStyle = css`
@@ -107,10 +150,21 @@ const errorCaptionStyle = css`
   }
 `;
 
-const TextInput: FC<TextInputProps> = ({ error = '', focused = false, placeholder, onChange, disabled }) => {
+const TextInput: FC<TextInputProps> = ({
+  error = '',
+  iconProps,
+  focused = false,
+  placeholder,
+  onChange,
+  disabled,
+  name,
+  type,
+}) => {
   let iconColor = theme['neutral-300'];
-  const [textInputState, setTextInputState] = useState<TextInputState>({ isFocused: false });
-  
+  const [textInputState, setTextInputState] = useState<TextInputState>({
+    isFocused: false,
+  });
+
   if (focused || textInputState.isFocused) {
     iconColor = theme['primary-500'];
   }
@@ -119,32 +173,53 @@ const TextInput: FC<TextInputProps> = ({ error = '', focused = false, placeholde
     iconColor = theme['error-100'];
   }
 
+  const onFocusHandler = () => setTextInputState({ isFocused: true });
+  const onBlurHandler = () => setTextInputState({ isFocused: false });
+
   return (
     <div css={[textInputContainerStyle]}>
       <input
         placeholder={placeholder}
         disabled={disabled}
-        type="text"
         css={inputFieldStyle}
         className={`${focused && 'focused'} ${error.length > 0 && 'error'}`}
         onChange={onChange}
-        onFocus={() => setTextInputState({ isFocused: true })}
-        onBlur={() => setTextInputState({ isFocused: false })}
+        onFocus={onFocusHandler}
+        onBlur={onBlurHandler}
+        name={name}
+        type={type || 'text'}
       />
 
       {/* Text Input Icon */}
       <div css={textInputIconStyle}>
-        <Icon name="user" fill={iconColor}/>
+        {iconProps && (
+          <Icon
+            name={iconProps.title}
+            fill={iconColor}
+            width={iconProps.width}
+            height={iconProps.height}
+          />
+        )}
       </div>
 
       {/* Floating Title */}
-      <caption css={textInputTitleStyle} className={`title ${error.length > 0 && 'error'}`}>{placeholder}</caption>
+      <span
+        css={textInputTitleStyle}
+        className={`title ${error.length > 0 && 'error'}`}
+      >
+        {placeholder}
+      </span>
 
-      {(error.length > 0) && (
-        <caption css={[textInputTitleStyle, errorCaptionStyle]} className={'error'}>{error}</caption>
+      {error.length > 0 && (
+        <span
+          css={[textInputTitleStyle, errorCaptionStyle]}
+          className={'error'}
+        >
+          {error}
+        </span>
       )}
     </div>
-  )
+  );
 };
 
 export default TextInput;

@@ -11,7 +11,6 @@ type CardProps = {
    * Options for extra actions that can be carried out on the card
    */
   options?: OptionsProps['options'];
-  showOptionsTrigger?: boolean;
   traineeCount: number;
   title: string;
   createdAt: string;
@@ -209,13 +208,7 @@ const cohortCardUnderlayStyle = css`
   }
 `;
 
-const Card: FC<CardProps> = ({
-  options,
-  traineeCount,
-  title,
-  createdAt,
-  showOptionsTrigger = true,
-}) => {
+const Card: FC<CardProps> = ({ options, traineeCount, title, createdAt }) => {
   const [state, setState] = useState({ isOptionsToggledOn: false });
 
   /**
@@ -237,7 +230,7 @@ const Card: FC<CardProps> = ({
 
   return (
     <div css={baseCardStyle}>
-      {showOptionsTrigger && (
+      {options && (
         <span className='options-icon' onClick={toggleOptions}>
           <Icon name='vertical-dots' />
         </span>
@@ -268,7 +261,6 @@ export const CohortCard: FC<CohortCardProps> = ({
   currentProgram,
   currentProgramStartDate,
   currentProgramEndDate,
-  showOptionsTrigger = true,
 }) => {
   const [state, setState] = useState({ isOptionsToggledOn: false });
 
@@ -319,7 +311,7 @@ export const CohortCard: FC<CohortCardProps> = ({
         className='cohort-primary-info'
         css={[baseCardStyle, cohortCardOverrideStyle]}
       >
-        {showOptionsTrigger && (
+        {options && (
           <span className='options-icon' onClick={toggleOptions}>
             <Icon name='vertical-dots' />
           </span>

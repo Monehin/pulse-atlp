@@ -27,7 +27,7 @@ type NavProps = {
 const navBarStyle = css`
   position: relative;
   background-color: ${theme['primary-500']};
-  width: 19rem;
+  width: 15rem;
   height: 100vh;
   justify-content: flex-end;
 

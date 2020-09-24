@@ -1,23 +1,19 @@
 /** @jsx jsx */
-import { FC, ReactElement, Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { css, jsx } from '@emotion/core';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Route, Redirect, Switch } from 'react-router-dom';
+
+// pages
+import DashboardPage from '../../pages/Dashboard/Dashboard';
+import CohortsPage from '../../pages/Cohorts/Cohorts';
+import ProgramsPage from '../../pages/Programs/Programs';
+import UsersPage from '../../pages/Users/Users';
+import SettingsPage from '../../pages/Settings/Settings';
 
 import theme, { remCalc } from '../../themes';
 import Icon from '../Icon/Icon';
-import Modal from '../Modal/Modal';
 import Nav from '../Nav/Nav';
 import themes from '../../themes';
-
-type LayoutProps = {
-  /**
-   * Page to render, leveraging the Layout's render prop strategy
-   */
-  render: (
-    toggleModal: () => void,
-    setModalContent: (title: any, description: any, content: any) => void
-  ) => ReactElement;
-};
 
 /**
  * Style Definitions
@@ -69,6 +65,7 @@ const layoutStyle = css`
         display: flex;
         align-items: center;
         margin-top: 0;
+        margin-bottom: 1rem;
         color: ${theme['neutral-500']};
         line-height: 0;
 
@@ -108,12 +105,12 @@ const layoutStyle = css`
   }
 `;
 
-const Layout: FC<LayoutProps> = ({ render }) => {
+const Layout = () => {
   const currentLocation = useLocation();
-  const [state, setState] = useState({
-    isModalToggledOn: false,
-    modalContent: { title: '', description: '', content: <div></div> },
-  });
+
+  if (currentLocation.pathname === '/') {
+    return <Redirect to='/dashboard' />;
+  }
 
   /**
    * Helper methods
@@ -124,29 +121,12 @@ const Layout: FC<LayoutProps> = ({ render }) => {
     return routeSections[1];
   })();
 
-  const toggleModal = () => {
-    setState({
-      ...state,
-      isModalToggledOn: !state.isModalToggledOn,
-    });
-  };
-
-  const setModalContent = (
-    title: string,
-    description: string,
-    content: ReactElement
-  ) => {
-    // setState({
-    //   ...state,
-    //   isModalToggledOn: !state.isModalToggledOn,
-    //   modalContent: { title, description, content },
-    // });
-  };
-
   return (
     <Fragment>
       <div css={layoutStyle}>
         <Nav />
+
+        {/* Main content section */}
         <div className='content-area'>
           <section className='top-bar'>
             <div className='page-title'>
@@ -168,12 +148,29 @@ const Layout: FC<LayoutProps> = ({ render }) => {
               <span className='pic'></span>
             </div>
           </section>
-          {render(toggleModal, setModalContent)}
+          <Switch>
+            <Route path='/dashboard'>
+              <DashboardPage />
+            </Route>
+
+            <Route path='/cohorts'>
+              <CohortsPage />
+            </Route>
+
+            <Route path='/programs'>
+              <ProgramsPage />
+            </Route>
+
+            <Route path='/users'>
+              <UsersPage />
+            </Route>
+
+            <Route path='/settings'>
+              <SettingsPage />
+            </Route>
+          </Switch>
         </div>
       </div>
-      {state.isModalToggledOn && (
-        <Modal content={<button onClick={toggleModal}>Toggle</button>} />
-      )}
     </Fragment>
   );
 };

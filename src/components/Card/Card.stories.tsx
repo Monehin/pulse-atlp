@@ -51,11 +51,6 @@ export const Cohort = () => (
 
 export const WithoutOptions = () => (
   <div style={{ width: '30rem' }}>
-    <Card
-      title='Cohort 1'
-      traineeCount={30}
-      createdAt={'20th july, 2020'}
-      showOptionsTrigger={false}
-    />
+    <Card title='Cohort 1' traineeCount={30} createdAt={'20th july, 2020'} />
   </div>
 );

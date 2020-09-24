@@ -4,21 +4,21 @@ import 'firebase/firestore';
 import 'firebase/storage';
 
 const config = {
-  apiKey: "AIzaSyDr5C_Zc8KMoXz0T-K-uu76jIv07RrmijU",
-  authDomain: "pulse-ff145.firebaseapp.com",
-  databaseURL: "https://pulse-ff145.firebaseio.com",
-  projectId: "pulse-ff145",
-  storageBucket: "pulse-ff145.appspot.com",
-  messagingSenderId: "16320546894",
-  appId: "1:16320546894:web:def2388d44ab7c65e85b1f",
-  measurementId: "G-DPGH01GWJR"
+  apiKey: 'AIzaSyDr5C_Zc8KMoXz0T-K-uu76jIv07RrmijU',
+  authDomain: 'pulse-ff145.firebaseapp.com',
+  databaseURL: 'https://pulse-ff145.firebaseio.com',
+  projectId: 'pulse-ff145',
+  storageBucket: 'pulse-ff145.appspot.com',
+  messagingSenderId: '16320546894',
+  appId: '1:16320546894:web:def2388d44ab7c65e85b1f',
+  measurementId: 'G-DPGH01GWJR',
 };
 // Initialize Firebase
 firebase.initializeApp(config);
 
 export const auth = firebase.auth();
 
-export const firestore = firebase.firestore();
+export const firestoreDB = firebase.firestore();
 
 export const googleAuthProvider = new firebase.auth.GoogleAuthProvider();
 

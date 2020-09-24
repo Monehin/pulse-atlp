@@ -131,6 +131,10 @@ button {
   font-family: 'DINPro', sans-serif;
 }
 
+#root {
+  overflow: hidden;
+}
+
 /* make sure to set some focus styles for accessibility */
 :focus {
   outline: 0;

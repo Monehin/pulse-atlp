@@ -1,6 +1,5 @@
-import React from 'react';
-import { css, jsx } from '@emotion/core';
 /** @jsx jsx */
+import { css, jsx } from '@emotion/core';
 
 const Loading = () => {
   return (
@@ -36,25 +35,25 @@ const loadingStyle = css`
     animation: loading 0.8s infinite;
   }
 
-  .obj: nth-child(2) {
+  .obj:nth-of-type(2) {
     animation-delay: 0.1s;
   }
-  .obj: nth-child(3) {
+  .obj:nth-of-type(3) {
     animation-delay: 0.4s;
   }
-  .obj: nth-child(3) {
+  .obj:nth-of-type(3) {
     animation-delay: 0.7s;
   }
-  .obj: nth-child(5) {
+  .obj:nth-of-type(5) {
     animation-delay: 0.1s;
   }
-  .obj: nth-child(6) {
+  .obj:nth-of-type(6) {
     animation-delay: 0.14s;
   }
-  .obj: nth-child(7) {
+  .obj:nth-of-type(7) {
     animation-delay: 0.6s;
   }
-  .obj: nth-child(8) {
+  .obj:nth-of-type(8) {
     animation-delay: 0.7s;
   }
 

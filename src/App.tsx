@@ -1,42 +1,33 @@
-import React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React, { useContext } from 'react';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+// providers
+import UserProvider, { UserContext } from './Providers/UserProvider';
 
 // pages
-import HomePage from './pages/Home/Home';
-import DashboardPage from './pages/Dashoard/Dashboard';
-import CohortsPage from './pages/Cohorts/Cohorts';
-import ProgramsPage from './pages/Programs/Programs';
-import UsersPage from './pages/Users/Users';
-import SettingsPage from './pages/Settings/Settings';
+import AuthPage from './pages/Auth/Auth';
+import AuthenticatedRoutes from './components/Layout/Layout';
+
+/**
+ * Evaluate what route to render the user
+ * depending on their authenticated status.
+ */
+const AuthGate = () => {
+  return useContext(UserContext).currentUser ? (
+    <AuthenticatedRoutes />
+  ) : (
+    <AuthPage />
+  );
+};
 
 function App() {
   return (
     <Router>
-      <Switch>
-        <Route exact path='/'>
-          <HomePage />
-        </Route>
-
-        <Route exact path='/dashboard'>
-          <DashboardPage />
-        </Route>
-
-        <Route exact path='/cohorts'>
-          <CohortsPage />
-        </Route>
-
-        <Route exact path='/programs'>
-          <ProgramsPage />
-        </Route>
-
-        <Route exact path='/users'>
-          <UsersPage />
-        </Route>
-
-        <Route exact path='/settings'>
-          <SettingsPage />
-        </Route>
-      </Switch>
+      <Route path='/'>
+        <UserProvider>
+          <AuthGate />
+        </UserProvider>
+      </Route>
     </Router>
   );
 }
