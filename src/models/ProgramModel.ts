@@ -2,7 +2,6 @@ import Joi from 'joi';
 import ModelFactory from './factory';
 
 const programSchema = Joi.object({
-  id: Joi.string().min(5),
   title: Joi.string()
     .min(5)
     .required(),
@@ -14,8 +13,8 @@ const programSchema = Joi.object({
     .required(),
   durationInWeeks: Joi.number()
     .min(1)
-    .required(), // value in weeks
-  ratingCadence: Joi.number().min(1), // value in weeks
+    .required(),
+  ratingCadenceInWeeks: Joi.number().min(1),
   ratingAttributes: Joi.array().items(
     Joi.object({
       title: Joi.string().required(),
