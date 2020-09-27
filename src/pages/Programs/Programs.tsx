@@ -6,12 +6,11 @@ import { useState, ChangeEvent, FormEvent, Fragment } from 'react';
 // components
 import Card from '../../components/Card/Card';
 import Button from '../../components/Button/Button';
-import TextInput, {
-  newProgramFormStyle,
-} from '../../components/TextInput/TextInput';
+import TextInput, { formStyle } from '../../components/TextInput/TextInput';
 import Icon from '../../components/Icon/Icon';
 import theme, { remCalc } from '../../themes';
 import useModal from '../../components/Modal/Modal';
+import Loading from '../../components/Loading/Loading';
 
 // Model
 import ProgramModel from '../../models/ProgramModel';
@@ -19,7 +18,7 @@ import ProgramModel from '../../models/ProgramModel';
 // others
 import { ValidationError } from 'joi';
 
-type Program = {
+export type Program = {
   id?: string;
   title: string;
   createdAt: Date;
@@ -72,8 +71,8 @@ const getModalContent = (
   updateErrors: Function,
   newProgram: Program,
   updateNewProgram: Function,
-  isCreatingNewProgram: boolean,
-  updateCreationStatus: Function,
+  isCreatingProgram: boolean,
+  updateCreatingProgramStatus: Function,
   toggleModal: Function
 ) => {
   const newProgramOnChangeHandler = (event: ChangeEvent<HTMLInputElement>) => {
@@ -83,15 +82,15 @@ const getModalContent = (
   const addNewProgramHandler = async ($event: FormEvent) => {
     try {
       $event.preventDefault();
-      updateCreationStatus(true);
+      updateCreatingProgramStatus(true);
       const docRef = await ProgramModel.create(newProgram);
-      updateCreationStatus(false);
+      toggleModal();
+      updateCreatingProgramStatus(false);
       updatePrograms([...programs, { ...newProgram, id: docRef.id }]);
       updateErrors({});
-      toggleModal();
     } catch (err) {
       if (err instanceof ValidationError) {
-        updateCreationStatus(false);
+        updateCreatingProgramStatus(false);
         // persist the newProgram data thus far so we don't lose it on the page update
         updateNewProgram(newProgram);
 
@@ -103,7 +102,7 @@ const getModalContent = (
   };
 
   return (
-    <form css={newProgramFormStyle} onSubmit={addNewProgramHandler}>
+    <form css={formStyle} onSubmit={addNewProgramHandler}>
       <section className='grid-area'>
         <div className='col'>
           <TextInput
@@ -133,8 +132,8 @@ const getModalContent = (
         </div>
       </section>
       <section className='row submit'>
-        <Button disabled={isCreatingNewProgram}>
-          {!isCreatingNewProgram ? 'Create Program' : 'Please Wait...'}
+        <Button disabled={isCreatingProgram}>
+          {!isCreatingProgram ? 'Create Program' : 'Please Wait...'}
         </Button>
       </section>
     </form>
@@ -142,8 +141,9 @@ const getModalContent = (
 };
 
 const ProgramsPage = () => {
-  const [programs, updatePrograms] = useState<Program[]>([]);
-  const [isCreatingNewProgram, updateCreationStatus] = useState(false);
+  let [programs, updatePrograms] = useState<Program[]>([]);
+  const [isLoading, updateLoadingStatus] = useState(true);
+  const [isCreatingProgram, updateCreatingProgramStatus] = useState(false);
   const [errors, updateErrors] = useState({
     title: '',
     prerequisiteProgramId: '',
@@ -167,13 +167,43 @@ const ProgramsPage = () => {
         updateErrors,
         newProgram,
         updateNewProgram,
-        isCreatingNewProgram,
-        updateCreationStatus,
+        isCreatingProgram,
+        updateCreatingProgramStatus,
         injectedToggleModal
       )
   );
 
-  if (programs.length === 0) {
+  if (isLoading) {
+    ProgramModel.getAll()
+      .then((programsCollectionSnapshot) => {
+        let existingPrograms: any[] = [];
+        programsCollectionSnapshot.forEach((program) => {
+          // convert from Firestore Timestamp type
+          existingPrograms = [...existingPrograms, program.data()];
+          existingPrograms[existingPrograms.length - 1].createdAt = new Date(
+            existingPrograms[existingPrograms.length - 1].createdAt.toDate()
+          );
+        });
+
+        updatePrograms(existingPrograms);
+      })
+      .catch((err) => {
+        console.log(err.message);
+      })
+      .finally(() => {
+        updateLoadingStatus(false);
+      });
+
+    return (
+      <Fragment>
+        <div className='empty-state'>
+          <Loading />
+        </div>
+      </Fragment>
+    );
+  }
+
+  if (programs.length === 0 && !isLoading) {
     return (
       <Fragment>
         <div className='empty-state'>

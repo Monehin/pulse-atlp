@@ -9,8 +9,11 @@ type FireStoreClient = {
     collection: string
   ) => {
     add: (item: any) => Promise<any>;
+    get: (query?: any) => Promise<any>;
   };
 };
+
+type FireStoreQuery = { limit: number; page: number };
 
 type Model = (
   collection: string,
@@ -18,7 +21,7 @@ type Model = (
   protectedFields?: string[]
 ) => {
   create: (item: any) => Promise<any>;
-  getAll?: (query: { limit: number; page: number }) => Promise<any[]>;
+  getAll: (query?: FireStoreQuery) => Promise<any[]>;
 };
 
 /**
@@ -59,6 +62,10 @@ const ModelFactory: Model = (
       }
 
       return firestoreClient.collection(collection).add(validatedNewItem);
+    },
+
+    getAll: (query?: FireStoreQuery) => {
+      return firestoreClient.collection(collection).get(query);
     },
   };
 };

@@ -13,12 +13,13 @@ type CardProps = {
   options?: OptionsProps['options'];
   traineeCount: number;
   title: string;
-  createdAt: string;
+  createdAt?: string;
 };
 
 type CohortCardProps = CardProps & {
+  startDate: string;
   /**
-   * Any given cohort can only be in one sub program per time.
+   * Any given cohort can only have one active program per time.
    * This value highlights that value
    */
   currentProgram: string;
@@ -258,6 +259,7 @@ export const CohortCard: FC<CohortCardProps> = ({
   traineeCount,
   title,
   createdAt,
+  startDate,
   currentProgram,
   currentProgramStartDate,
   currentProgramEndDate,
@@ -322,7 +324,10 @@ export const CohortCard: FC<CohortCardProps> = ({
         </span>
 
         <div className='title-section'>
-          <span className='created-at'>created {createdAt}</span>
+          <span className='created-at'>
+            {new Date() > new Date(startDate) ? 'started ' : 'starts '}
+            {startDate}
+          </span>
           <h4 className='title'>{title}</h4>
         </div>
 

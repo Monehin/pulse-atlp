@@ -1,5 +1,6 @@
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core';
+import themes from '../../themes';
 
 const Loading = () => {
   return (
@@ -18,19 +19,13 @@ const Loading = () => {
 };
 
 const loadingStyle = css`
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  height: 40px;
   display: flex;
   align-items: center;
 
   .obj {
     width: 5px;
-    height: 30px;
     margin: 0 3px;
-    background: var(--primary-500);
+    background: ${themes['primary-500']};
     border-radius: 10px;
     animation: loading 0.8s infinite;
   }

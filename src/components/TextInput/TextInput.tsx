@@ -24,6 +24,7 @@ type TextInputProps = {
   disabled?: boolean;
   name?: string;
   type?: string;
+  value?: string;
   onChange?: (event: ChangeEvent<HTMLInputElement>) => void;
 };
 
@@ -82,7 +83,7 @@ const textInputContainerStyle = css`
   width: 100%;
 `;
 
-export const newProgramFormStyle = css`
+export const formStyle = css`
   form,
   .row {
     display: flex;
@@ -109,6 +110,7 @@ export const newProgramFormStyle = css`
     &.submit {
       justify-content: flex-end;
       margin-bottom: 0;
+      margin-top: 1rem;
     }
   }
 `;
@@ -159,6 +161,7 @@ const TextInput: FC<TextInputProps> = ({
   disabled,
   name,
   type,
+  value,
 }) => {
   let iconColor = theme['neutral-300'];
   const [textInputState, setTextInputState] = useState<TextInputState>({
@@ -178,17 +181,36 @@ const TextInput: FC<TextInputProps> = ({
 
   return (
     <div css={[textInputContainerStyle]}>
-      <input
-        placeholder={placeholder}
-        disabled={disabled}
-        css={inputFieldStyle}
-        className={`${focused && 'focused'} ${error.length > 0 && 'error'}`}
-        onChange={onChange}
-        onFocus={onFocusHandler}
-        onBlur={onBlurHandler}
-        name={name}
-        type={type || 'text'}
-      />
+      {/* Uncontrolled by default */}
+      {!value && (
+        <input
+          placeholder={placeholder}
+          disabled={disabled}
+          css={inputFieldStyle}
+          className={`${focused && 'focused'} ${error.length > 0 && 'error'}`}
+          onChange={onChange}
+          onFocus={onFocusHandler}
+          onBlur={onBlurHandler}
+          name={name}
+          type={type || 'text'}
+        />
+      )}
+
+      {/* We explicitly want this to be a controlled component */}
+      {value && (
+        <input
+          placeholder={placeholder}
+          disabled={disabled}
+          css={inputFieldStyle}
+          className={`${focused && 'focused'} ${error.length > 0 && 'error'}`}
+          onChange={onChange}
+          onFocus={onFocusHandler}
+          onBlur={onBlurHandler}
+          name={name}
+          type={type || 'text'}
+          value={value}
+        />
+      )}
 
       {/* Text Input Icon */}
       <div css={textInputIconStyle}>

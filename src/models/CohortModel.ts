@@ -3,15 +3,18 @@ import ModelFactory from './factory';
 
 const cohortSchema = Joi.object({
   name: Joi.string()
-    .alphanum()
+    .pattern(/^[\w\s]/)
     .min(3)
     .required(),
+  startDate: Joi.date().required(),
+  traineeCount: Joi.number(),
   programDates: Joi.array()
     .items({
       id: Joi.string().alphanum(),
-      start: Joi.date(),
-      end: Joi.date(),
+      startDate: Joi.date(),
+      endDate: Joi.date(),
     })
+    .length(3)
     .required(),
   createdAt: Joi.date(),
 });

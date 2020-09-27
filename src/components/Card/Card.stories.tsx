@@ -44,7 +44,7 @@ export const Cohort = () => (
       currentProgram='bootcamp'
       currentProgramStartDate='12 jul 2020'
       currentProgramEndDate='21 dec 2020'
-      createdAt={'20th july, 2020'}
+      startDate={'20th july, 2020'}
     />
   </div>
 );
